@@ -23,7 +23,7 @@ julia> dAcz(cosmo, 0.5)  # comoving luminosity distance
 module Cosmologies
 
 export ΛCDM, AbstractΛCDM, AbstractCosmology
-export PlanckFlatΛCDM
+export PlanckFlatΛCDM, EvolutionlessCosmology
 export Hz, Ωra, Ωma, Ωka, Ωva, Dz, fz, chiz, zchi, dAcz, dLcz
 
 
@@ -110,6 +110,46 @@ function PlanckFlatΛCDM()
     Ωm = 1 - Ωv - Ωr
     return ΛCDM(h, Ωr, Ωm, 0, Ωv)
 end
+
+
+############## EvolutionlessCosmology
+@doc """
+    EvolutionlessCosmology(basecosmology::AbstractCosmology; D=1, f=1)
+    EvolutionlessCosmology(h, Ωr, Ωm, Ωk, Ωv; D=1, f=1)
+
+EvolutionlessCosmology() is a cosmology where the growth factor `D(z)=const` and
+`f(z)=const` for all redshifts. In that sense this describes a static universe.
+However, the distance-redshift relation remains without modification from ΛCDM
+or whichever is the base cosmology. This is for practical purposes to be able
+to define RSD.
+"""
+struct EvolutionlessCosmology{Tcosmo,TD,Tf} <: AbstractCosmology
+    cosmobase::Tcosmo
+    D::TD
+    f::Tf
+end
+
+EvolutionlessCosmology(; D=1, f=1) = EvolutionlessCosmology(PlanckFlatΛCDM(); D, f)
+
+EvolutionlessCosmology(cosmobase; D=1, f=1) = EvolutionlessCosmology(cosmobase, D, f)
+
+EvolutionlessCosmology(h, Ωr, Ωm, Ωk, Ωv; D=1, f=1) = EvolutionlessCosmology(ΛCDM(h, Ωr, Ωm, Ωk, Ωv, nothing); D, f)
+
+
+function show(io::IO, c::EvolutionlessCosmology)
+    print(io, "EvolutionlessCosmology(D=$(c.D), f=$(c.f), base=$(c.cosmobase))")
+end
+
+
+# all the functions
+for funcname in (:Hz, :rhocz, :Ωra, :Ωma, :Ωka, :chiz, :zchi, :Skz, :zSk, :dAcz, :zdAc)
+    @eval $funcname(c::EvolutionlessCosmology, x) = $funcname(c.cosmobase, x)
+end
+
+
+# The essential definition of this cosmology:
+Dz(c::EvolutionlessCosmology, _) = c.D
+fz(c::EvolutionlessCosmology, _) = c.f
 
 
 ###################### read/write functions #######################
