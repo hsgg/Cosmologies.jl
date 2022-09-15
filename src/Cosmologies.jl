@@ -142,7 +142,7 @@ end
 
 
 # all the functions
-for funcname in (:Hz, :rhocz, :Ωra, :Ωma, :Ωka, :chiz, :zchi, :Skz, :zSk, :dAcz, :zdAc)
+for funcname in (:Hz, :rhocz, :Ωra, :Ωma, :Ωka, :Ωva, :chiz, :zchi, :Skz, :zSk, :dAcz, :zdAc, :dLcz)
     @eval $funcname(c::EvolutionlessCosmology, x) = $funcname(c.cosmobase, x)
 end
 
