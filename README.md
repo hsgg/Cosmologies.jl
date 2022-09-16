@@ -59,7 +59,7 @@ f = fz(cosmo, z)
 r = chiz(cosmo, z)  # comoving distance
 z = zchi(cosmo, r)  # redshift
 
-comoving_angular_diameter_distance = dAcz(cosmo, z), dLcz
+comoving_angular_diameter_distance = dAcz(cosmo, z)
 comoving_luminosity_distance = dLcz(cosmo, z)
 ```
 Yes, the functions could be named less cryptically.
