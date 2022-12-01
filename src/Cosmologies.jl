@@ -125,11 +125,11 @@ struct EvolutionlessCosmology{Tcosmo,TD,Tf} <: AbstractCosmology
     f::Tf
 end
 
-EvolutionlessCosmology(; D=1, f=1) = EvolutionlessCosmology(PlanckFlatΛCDM(); D, f)
+EvolutionlessCosmology(; D=1, f=1) = EvolutionlessCosmology(PlanckFlatΛCDM(), D, f)
 
 EvolutionlessCosmology(cosmobase; D=1, f=1) = EvolutionlessCosmology(cosmobase, D, f)
 
-EvolutionlessCosmology(h, Ωr, Ωm, Ωk, Ωv; D=1, f=1) = EvolutionlessCosmology(ΛCDM(h, Ωr, Ωm, Ωk, Ωv, nothing); D, f)
+EvolutionlessCosmology(h, Ωr, Ωm, Ωk, Ωv; D=1, f=1) = EvolutionlessCosmology(ΛCDM(h, Ωr, Ωm, Ωk, Ωv), D, f)
 
 
 function show(io::IO, c::EvolutionlessCosmology)
