@@ -98,11 +98,7 @@ end
 
 
 # Planck cosmology
-function PlanckFlatΛCDM()
-    h = 0.6778
-    Tcmb = 2.72548
-    Ωv = 0.69179
-    Ωnu = 3.65e-5
+function PlanckFlatΛCDM(; h=0.6778, Tcmb=2.72548, Ωv=0.69179, Ωnu=3.65e-5)
     #
     ρr0 = a_Msol_Mpc3_K4 * Tcmb^4
     ρc0 = rhocz(ΛCDM(h, 0, 1-Ωv, 0, Ωv, nothing), 0)  # assume Ωr≈0
