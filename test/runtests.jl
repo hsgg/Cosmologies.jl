@@ -33,3 +33,51 @@ using Test
     end
 
 end
+
+
+@testset "Actual tests" begin
+
+    function test()
+        # test construction of PlanckFlatΛCDM()
+        c2 = PlanckFlatΛCDM()
+        @test typeof(c2) <: Cosmologies.FlatΛCDM
+
+        # read parameters
+        h = 0.6778
+        Ωr = 1e-5
+        Ωk = 0.0
+        Ωm = (0.022307 + 0.11865) / h^2
+        Ωv = 1 - Ωm - Ωr
+        @assert Ωr + Ωm + Ωk + Ωv ≈ 1
+
+        # create cosmology object, simple tests
+        c = ΛCDM(h, Ωr, Ωm, Ωk, Ωv)
+        @test typeof(c) <: Cosmologies.FlatΛCDM
+        @test Hz(c, 0) ≈ Cosmologies.H100
+        @test Ωra(c, 1) ≈ Ωr
+        @test Ωma(c, 1) ≈ Ωm
+        @test Ωka(c, 1) == Ωk == 0
+        @test Ωva(c, 1) ≈ Ωv
+        @test Dz(c, 0) == 1.0
+    end
+
+
+    function test_io()
+        c = PlanckFlatΛCDM()
+        mkpath("tmp")
+        write("tmp/cosmo.ini", c)
+
+        c2 = ΛCDM("tmp/cosmo.ini")
+        @test typeof(c2) <: Cosmologies.FlatΛCDM
+        @test Hz(c2, 0) ≈ Cosmologies.H100
+        @test Ωka(c2, 1) == 0
+        @test Dz(c2, 0) == 1.0
+    end
+
+    test()
+    test_io()
+
+end
+
+
+# vim: set sw=4 et sts=4 :
