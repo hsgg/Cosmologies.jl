@@ -23,7 +23,7 @@ julia> dAcz(cosmo, 0.5)  # comoving luminosity distance
 module Cosmologies
 
 export ΛCDM, AbstractΛCDM, AbstractCosmology
-export PlanckFlatΛCDM, EvolutionlessCosmology
+export PlanckFlatΛCDM, EvolutionlessCosmology, RealSpaceCosmology
 export Hz, Ωra, Ωma, Ωka, Ωva, Dz, fz, chiz, zchi, dAcz, dLcz
 
 
@@ -146,6 +146,41 @@ end
 # The essential definition of this cosmology:
 Dz(c::EvolutionlessCosmology, _) = c.D
 fz(c::EvolutionlessCosmology, _) = c.f
+
+
+############## RealSpaceCosmology
+@doc """
+    RealSpaceCosmology(basecosmology::AbstractCosmology; f=1)
+    RealSpaceCosmology(h, Ωr, Ωm, Ωk, Ωv; f=1)
+
+`RealSpaceCosmology()` is a cosmology where `f(z)=0`. Everything else is the
+same as for a normal cosmology, including the growth factor `D(z)`.
+"""
+struct RealSpaceCosmology{Tcosmo,Tf} <: AbstractCosmology
+    cosmobase::Tcosmo
+    f::Tf
+end
+
+RealSpaceCosmology(; f=1) = RealSpaceCosmology(PlanckFlatΛCDM(), f)
+
+RealSpaceCosmology(cosmobase; f=1) = RealSpaceCosmology(cosmobase, f)
+
+RealSpaceCosmology(h, Ωr, Ωm, Ωk, Ωv; f=1) = RealSpaceCosmology(ΛCDM(h, Ωr, Ωm, Ωk, Ωv), f)
+
+
+function show(io::IO, c::RealSpaceCosmology)
+    print(io, "RealSpaceCosmology(f=$(c.f), base=$(c.cosmobase))")
+end
+
+
+# all the functions
+for funcname in (:Hz, :rhocz, :Ωra, :Ωma, :Ωka, :Ωva, :chiz, :zchi, :Skz, :zSk, :dAcz, :zdAc, :dLcz, :Dz)
+    @eval $funcname(c::RealSpaceCosmology, x) = $funcname(c.cosmobase, x)
+end
+
+
+# The essential definition of this cosmology:
+fz(c::RealSpaceCosmology, _) = c.f
 
 
 ###################### read/write functions #######################
