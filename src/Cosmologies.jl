@@ -27,12 +27,12 @@ export PlanckFlatΛCDM, EvolutionlessCosmology, RealSpaceCosmology
 export Hz, Ωra, Ωma, Ωka, Ωva, Dz, fz, chiz, zchi, dAcz, dLcz
 
 
-include("Splines.jl")
+#include("Splines.jl")
 
 #using QuadGK
 #using DifferentialEquations
 using OrdinaryDiffEq
-using .Splines
+using Splines
 
 import Base.write
 import Base.show
