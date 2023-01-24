@@ -5,7 +5,8 @@ using Test
 
     cosmo_spec = [
                   (PlanckFlatΛCDM, ()),
-                  (EvolutionlessCosmology, (:D=>0.7, :f=>0.9))
+                  (EvolutionlessCosmology, (:D=>0.7, :f=>0.9)),
+                  (TimeSliceCosmology, (:D=>0.7, :f=>0.9))
                  ]
 
     @testset "$cosmology($(join(", ", kwargs)))" for (cosmology, kwargs) in cosmo_spec

@@ -33,9 +33,9 @@ cosmo = PlanckFlatΛCDM()
 which will fill in some default values.
 
 Since it is often useful to set the growth rate `f=const` and the growth factor
-`D=const`, this module also introduces the `EvolutionlessCosmology`:
+`D=const`, this module also introduces the `TimeSliceCosmology`:
 ```julia
-cosmo = EvolutionlessCosmology(cosmobase; D=1, f=1)
+cosmo = TimeSliceCosmology(cosmobase; D=1, f=1)
 ```
 where `cosmobase` is a regular cosmology that will be used for all functions
 except `D` and `f`.

@@ -23,8 +23,11 @@ julia> dAcz(cosmo, 0.5)  # comoving luminosity distance
 module Cosmologies
 
 export ΛCDM, AbstractΛCDM, AbstractCosmology
-export PlanckFlatΛCDM, EvolutionlessCosmology, RealSpaceCosmology
+export PlanckFlatΛCDM, TimeSliceCosmology, RealSpaceCosmology
 export Hz, Ωra, Ωma, Ωka, Ωva, Dz, fz, chiz, zchi, dAcz, dLcz
+
+
+@deprecate EvolutionlessCosmology(args...; kwargs...) TimeSliceCosmology(args...; kwargs...)
 
 
 #include("Splines.jl")
@@ -108,44 +111,44 @@ function PlanckFlatΛCDM(; h=0.6778, Tcmb=2.72548, Ωv=0.69179, Ωnu=3.65e-5)
 end
 
 
-############## EvolutionlessCosmology
+############## TimeSliceCosmology
 @doc """
-    EvolutionlessCosmology(basecosmology::AbstractCosmology; D=1, f=1)
-    EvolutionlessCosmology(h, Ωr, Ωm, Ωk, Ωv; D=1, f=1)
+    TimeSliceCosmology(basecosmology::AbstractCosmology; D=1, f=1)
+    TimeSliceCosmology(h, Ωr, Ωm, Ωk, Ωv; D=1, f=1)
 
-EvolutionlessCosmology() is a cosmology where the growth factor `D(z)=const` and
+TimeSliceCosmology() is a cosmology where the growth factor `D(z)=const` and
 `f(z)=const` for all redshifts. In that sense this describes a static universe.
 However, the distance-redshift relation remains without modification from ΛCDM
 or whichever is the base cosmology. This is for practical purposes to be able
 to define RSD.
 """
-struct EvolutionlessCosmology{Tcosmo,TD,Tf} <: AbstractCosmology
+struct TimeSliceCosmology{Tcosmo,TD,Tf} <: AbstractCosmology
     cosmobase::Tcosmo
     D::TD
     f::Tf
 end
 
-EvolutionlessCosmology(; D=1, f=1) = EvolutionlessCosmology(PlanckFlatΛCDM(), D, f)
+TimeSliceCosmology(; D=1, f=1) = TimeSliceCosmology(PlanckFlatΛCDM(), D, f)
 
-EvolutionlessCosmology(cosmobase; D=1, f=1) = EvolutionlessCosmology(cosmobase, D, f)
+TimeSliceCosmology(cosmobase; D=1, f=1) = TimeSliceCosmology(cosmobase, D, f)
 
-EvolutionlessCosmology(h, Ωr, Ωm, Ωk, Ωv; D=1, f=1) = EvolutionlessCosmology(ΛCDM(h, Ωr, Ωm, Ωk, Ωv), D, f)
+TimeSliceCosmology(h, Ωr, Ωm, Ωk, Ωv; D=1, f=1) = TimeSliceCosmology(ΛCDM(h, Ωr, Ωm, Ωk, Ωv), D, f)
 
 
-function show(io::IO, c::EvolutionlessCosmology)
-    print(io, "EvolutionlessCosmology(D=$(c.D), f=$(c.f), base=$(c.cosmobase))")
+function show(io::IO, c::TimeSliceCosmology)
+    print(io, "TimeSliceCosmology(D=$(c.D), f=$(c.f), base=$(c.cosmobase))")
 end
 
 
 # all the functions
 for funcname in (:Hz, :rhocz, :Ωra, :Ωma, :Ωka, :Ωva, :chiz, :zchi, :Skz, :zSk, :dAcz, :zdAc, :dLcz)
-    @eval $funcname(c::EvolutionlessCosmology, x) = $funcname(c.cosmobase, x)
+    @eval $funcname(c::TimeSliceCosmology, x) = $funcname(c.cosmobase, x)
 end
 
 
 # The essential definition of this cosmology:
-Dz(c::EvolutionlessCosmology, _) = c.D
-fz(c::EvolutionlessCosmology, _) = c.f
+Dz(c::TimeSliceCosmology, _) = c.D
+fz(c::TimeSliceCosmology, _) = c.f
 
 
 ############## RealSpaceCosmology
