@@ -5,8 +5,8 @@ using Test
 
     cosmo_spec = [
                   (PlanckFlatΛCDM, ()),
-                  (EvolutionlessCosmology, (:D=>0.7, :f=>0.9)),
-                  (TimeSliceCosmology, (:D=>0.7, :f=>0.9))
+                  (TimeSliceCosmology, (:D=>0.7, :f=>0.9)),
+                  (RealSpaceCosmology, (:f=>0,))
                  ]
 
     @testset "$cosmology($(join(", ", kwargs)))" for (cosmology, kwargs) in cosmo_spec
@@ -78,6 +78,19 @@ end
     test()
     test_io()
 
+end
+
+
+@testset "Allocation tests" begin
+    c = PlanckFlatΛCDM()
+    z = rand(10000)
+    @show typeof(c)
+    @time chiz(c, z[423])
+    @time chiz(c, z[15])
+    @time chiz(c, z[1234])
+    @time @. chiz(c, z)
+    @time @. chiz(c, z)
+    @time @. chiz(c, z)
 end
 
 
