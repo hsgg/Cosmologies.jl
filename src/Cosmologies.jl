@@ -164,11 +164,11 @@ struct RealSpaceCosmology{Tcosmo,Tf} <: AbstractCosmology
     f::Tf
 end
 
-RealSpaceCosmology(; f=1) = RealSpaceCosmology(PlanckFlatΛCDM(), f)
+RealSpaceCosmology(; f=0) = RealSpaceCosmology(PlanckFlatΛCDM(), f)
 
-RealSpaceCosmology(cosmobase; f=1) = RealSpaceCosmology(cosmobase, f)
+RealSpaceCosmology(cosmobase; f=0) = RealSpaceCosmology(cosmobase, f)
 
-RealSpaceCosmology(h, Ωr, Ωm, Ωk, Ωv; f=1) = RealSpaceCosmology(ΛCDM(h, Ωr, Ωm, Ωk, Ωv), f)
+RealSpaceCosmology(h, Ωr, Ωm, Ωk, Ωv; f=0) = RealSpaceCosmology(ΛCDM(h, Ωr, Ωm, Ωk, Ωv), f)
 
 
 function show(io::IO, c::RealSpaceCosmology)
