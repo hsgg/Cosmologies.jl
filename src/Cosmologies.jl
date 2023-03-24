@@ -263,8 +263,9 @@ function _make_chi(c::AbstractΛCDM, zmax=1e5)
     tspan = (0.0, zmax)
     prob = ODEProblem(f, u0, tspan)
     sol = solve(prob, Tsit5())
-    invsol = Spline1D(sol.u, sol.t, extrapolation=Splines.linear)
-    return sol, invsol
+    chiz = Spline1D(sol.t, sol.u, extrapolation=Splines.linear)
+    zchi = Spline1D(sol.u, sol.t, extrapolation=Splines.linear)
+    return chiz, zchi
 end
 chiz(c::AbstractΛCDM, z) = c.cache.chi[1](z)
 zchi(c::AbstractΛCDM, r) = c.cache.chi[2](r)
