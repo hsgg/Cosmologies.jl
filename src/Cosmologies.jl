@@ -153,8 +153,8 @@ fz(c::TimeSliceCosmology, _) = c.f
 
 ############## RealSpaceCosmology
 @doc """
-    RealSpaceCosmology(basecosmology::AbstractCosmology; f=1)
-    RealSpaceCosmology(h, Ωr, Ωm, Ωk, Ωv; f=1)
+    RealSpaceCosmology(basecosmology::AbstractCosmology; f=0)
+    RealSpaceCosmology(h, Ωr, Ωm, Ωk, Ωv; f=0)
 
 `RealSpaceCosmology()` is a cosmology where `f(z)=0`. Everything else is the
 same as for a normal cosmology, including the growth factor `D(z)`.
