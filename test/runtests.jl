@@ -92,6 +92,7 @@ end
         # Are r1,r2 and z1,z2 sorted the same way?
         @test_broken sign(r1-r2) == sign(z1-z2)
 
+
         # bigger differences are OK?
         z3 = 0.801
         r3 = chiz(c, z3)
@@ -103,6 +104,15 @@ end
         @test r3 > r2
         @test r4 < r1
         @test r4 < r2
+
+
+        # Another broken case:
+        z5 = 0.895
+        r5 = chiz(c, z5)
+        r6 = 2120.08
+        z6 = zchi(c, r6)
+        @show z5 z6 r5 r6
+        @test_broken sign(r6-r5) == sign(z6-z5)
     end
 
     test()
