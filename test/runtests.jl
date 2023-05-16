@@ -1,12 +1,17 @@
 using Cosmologies
+using Splines
 using Test
 
 @testset "Cosmologies.jl" begin
+    myDz = Spline1D(0:5, rand(5); k=0)
+    myfz = Spline1D(0:5, rand(5); k=0)
 
     cosmo_spec = [
                   (PlanckFlatΛCDM, ()),
                   (TimeSliceCosmology, (:D=>0.7, :f=>0.9)),
-                  (RealSpaceCosmology, (:f=>0,))
+                  (RealSpaceCosmology, (:f=>0,)),
+                  (TimeSliceCosmology, (:D=>myDz, :f=>myfz)),
+                  (RealSpaceCosmology, (:f=>myfz,)),
                  ]
 
     @testset "$cosmology($(join(", ", kwargs)))" for (cosmology, kwargs) in cosmo_spec
@@ -32,7 +37,6 @@ using Test
         comoving_angular_diameter_distance = dAcz(cosmo, z), dLcz
         comoving_luminosity_distance = dLcz(cosmo, z)
     end
-
 end
 
 

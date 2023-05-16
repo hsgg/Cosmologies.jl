@@ -147,8 +147,12 @@ end
 
 
 # The essential definition of this cosmology:
-Dz(c::TimeSliceCosmology, _) = c.D
-fz(c::TimeSliceCosmology, _) = c.f
+
+Dz(c::TimeSliceCosmology{Tc,TD,Tf}, _) where {Tc,TD<:Number,Tf} = c.D
+fz(c::TimeSliceCosmology{Tc,TD,Tf}, _) where {Tc,TD,Tf<:Number} = c.f
+
+Dz(c::TimeSliceCosmology, z) = c.D(z)
+fz(c::TimeSliceCosmology, z) = c.f(z)
 
 
 ############## RealSpaceCosmology
@@ -183,7 +187,8 @@ end
 
 
 # The essential definition of this cosmology:
-fz(c::RealSpaceCosmology, _) = c.f
+fz(c::RealSpaceCosmology{Tc,Tf}, _) where {Tc,Tf<:Number} = c.f
+fz(c::RealSpaceCosmology, z) = c.f(z)
 
 
 ###################### read/write functions #######################
