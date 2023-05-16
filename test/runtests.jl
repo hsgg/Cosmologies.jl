@@ -75,8 +75,39 @@ end
         @test Dz(c2, 0) == 1.0
     end
 
+    function test_zchi_chiz()
+        h = 0.6777
+        Ωr = 0
+        Ωm = 0.307115
+        Ωk = 0
+        Ωv = 1 - Ωr - Ωm - Ωk
+        c = ΛCDM(h, Ωr, Ωm, Ωk, Ωv)
+
+        z1 = 0.8
+        r1 = chiz(c, z1)
+        r2 = 1944.404
+        z2 = zchi(c, r2)
+        @show z1 z2 r1 r2
+
+        # Are r1,r2 and z1,z2 sorted the same way?
+        @test_broken sign(r1-r2) == sign(z1-z2)
+
+        # bigger differences are OK?
+        z3 = 0.801
+        r3 = chiz(c, z3)
+        z4 = 0.799
+        r4 = chiz(c, z4)
+        @show z3 r3
+        @show z4 r4
+        @test r3 > r1
+        @test r3 > r2
+        @test r4 < r1
+        @test r4 < r2
+    end
+
     test()
     test_io()
+    test_zchi_chiz()
 
 end
 
