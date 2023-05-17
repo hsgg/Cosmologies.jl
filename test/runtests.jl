@@ -80,12 +80,18 @@ end
     end
 
     function test_zchi_chiz()
+        # Note: The problem here is that Spline1D(x,y) is not the exact inverse
+        # of Spline1D(y,x). We correct it, for now, by increasing the number of
+        # time steps in the ODE solver.
         h = 0.6777
         Ωr = 0
         Ωm = 0.307115
         Ωk = 0
         Ωv = 1 - Ωr - Ωm - Ωk
         c = ΛCDM(h, Ωr, Ωm, Ωk, Ωv)
+
+        #@show c.cache.chi[1]
+        #@show c.cache.chi[2]
 
         z1 = 0.8
         r1 = chiz(c, z1)
@@ -94,7 +100,7 @@ end
         @show z1 z2 r1 r2
 
         # Are r1,r2 and z1,z2 sorted the same way?
-        @test_broken sign(r1-r2) == sign(z1-z2)
+        @test sign(r1-r2) == sign(z1-z2)
 
 
         # bigger differences are OK?
@@ -116,7 +122,7 @@ end
         r6 = 2120.08
         z6 = zchi(c, r6)
         @show z5 z6 r5 r6
-        @test_broken sign(r6-r5) == sign(z6-z5)
+        @test sign(r6-r5) == sign(z6-z5)
     end
 
     test()

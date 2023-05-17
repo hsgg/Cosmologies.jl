@@ -266,7 +266,7 @@ function _make_chi(c::AbstractΛCDM, zmax=1e5)
     f(u,p,t) = 1 / Hz(c, t)
     u0 = 0.0
     tspan = (0.0, zmax)
-    prob = ODEProblem(f, u0, tspan)
+    prob = ODEProblem(f, u0, tspan, reltol=1e-6)
     sol = solve(prob, Tsit5())
     chiz = Spline1D(sol.t, sol.u, extrapolation=Splines.linear)
     zchi = Spline1D(sol.u, sol.t, extrapolation=Splines.linear)
