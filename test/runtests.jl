@@ -14,7 +14,14 @@ using Test
                   (RealSpaceCosmology, (:f=>myfz,)),
                  ]
 
-    @testset "$cosmology($(join(", ", kwargs)))" for (cosmology, kwargs) in cosmo_spec
+    shortdisplay(par) = begin
+        if par.second isa Spline1D
+            return "$(par.first) => Spline1D"
+        end
+        return string(par)
+    end
+
+    @testset "$cosmology($(join(shortdisplay.(kwargs), ", ")))" for (cosmology, kwargs) in cosmo_spec
         cosmo = cosmology(; kwargs...)
 
         z = 0.5
