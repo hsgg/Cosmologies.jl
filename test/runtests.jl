@@ -29,6 +29,13 @@ using Test
 
         D = Dz(cosmo, z)
         f = fz(cosmo, z)
+        D1 = Dz.(cosmo, z)
+        f1 = fz.(cosmo, z)
+
+        @test D isa Number
+        @test f isa Number
+        @test D1 isa Number
+        @test f1 isa Number
 
         r = chiz(cosmo, z)  # comoving distance
         z = zchi(cosmo, r)  # redshift
@@ -124,6 +131,7 @@ end
         @show z5 z6 r5 r6
         @test sign(r6-r5) == sign(z6-z5)
     end
+
 
     test()
     test_io()
