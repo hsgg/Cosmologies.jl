@@ -57,6 +57,9 @@ const a_Msol_Mpc3_K4 = a_rad / gram_per_Msol / cm_per_sec^2 * cm_per_Mpc^3
 abstract type AbstractCosmology end
 abstract type AbstractΛCDM <: AbstractCosmology end
 
+Base.Broadcast.broadcastable(c::AbstractCosmology) = Ref(c)  # treat as scalar in broadcast
+
+
 # cache object
 struct MyCosmologyCache{Tchi,Tglna}
     chi::Tchi
@@ -66,11 +69,6 @@ function MyCosmologyCache(c::AbstractCosmology)
     return MyCosmologyCache(_make_chi(c), _make_g(c))
 end
 
-# for __dot__ syntax:
-import Base.length, Base.iterate
-length(x::AbstractCosmology) = 1
-iterate(x::AbstractCosmology) = x, nothing
-iterate(x::AbstractCosmology, i) = nothing
 
 # store cosmological parameters
 struct ΛCDM{T<:Real,Tcache,k} <: AbstractΛCDM

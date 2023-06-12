@@ -34,13 +34,19 @@ using Test
         Omega_curvature_z = Ωka(cosmo, a)
         Omega_vaccuum_z = Ωva(cosmo, a)
 
+        Om = Ωma(cosmo, 1 / (1 + z))
         D = Dz(cosmo, z)
         f = fz(cosmo, z)
+
+        Om1 = Ωma.(cosmo, 1 / (1 + z))
         D1 = Dz.(cosmo, z)
         f1 = fz.(cosmo, z)
 
+        @test Om isa Number
         @test D isa Number
         @test f isa Number
+
+        @test Om1 isa Number
         @test D1 isa Number
         @test f1 isa Number
 
