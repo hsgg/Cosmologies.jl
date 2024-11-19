@@ -1,7 +1,7 @@
 name = "Cosmologies"
 uuid = "ad5277c9-dfbe-4494-be58-2d487625a7d0"
 authors = ["Henry Gebhardt <hsggebhardt@fastmail.com> and contributors"]
-version = "0.1.5"
+version = "0.1.6"
 
 [deps]
 OrdinaryDiffEqTsit5 = "b1df2697-797e-41e3-8120-5422d3b24e4a"
