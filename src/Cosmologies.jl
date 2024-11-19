@@ -34,7 +34,8 @@ export Hz, Ωra, Ωma, Ωka, Ωva, Dz, fz, chiz, zchi, dAcz, dLcz
 
 #using QuadGK
 #using DifferentialEquations
-using OrdinaryDiffEq
+#using OrdinaryDiffEq
+using OrdinaryDiffEqTsit5
 using Splines
 
 import Base.write
