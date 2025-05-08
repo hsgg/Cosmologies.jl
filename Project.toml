@@ -4,12 +4,12 @@ authors = ["Henry Gebhardt <hsggebhardt@fastmail.com> and contributors"]
 version = "0.1.6"
 
 [deps]
+MySplines = "b11459bf-4609-2264-00dc-5ebba822f00d"
 OrdinaryDiffEqTsit5 = "b1df2697-797e-41e3-8120-5422d3b24e4a"
-Splines = "59274c38-6050-4eab-b485-1b2b36df4d3b"
 
 [compat]
+MySplines = "0.1, 0.2, 1"
 OrdinaryDiffEqTsit5 = "1"
-Splines = "0.1, 0.2"
 julia = "1"
 
 [extras]

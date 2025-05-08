@@ -1,5 +1,5 @@
 using Cosmologies
-using Splines
+using MySplines
 using Test
 
 @testset "Cosmologies.jl" begin

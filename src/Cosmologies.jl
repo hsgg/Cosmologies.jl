@@ -30,13 +30,11 @@ export Hz, Ωra, Ωma, Ωka, Ωva, Dz, fz, chiz, zchi, dAcz, dLcz
 @deprecate EvolutionlessCosmology(args...; kwargs...) TimeSliceCosmology(args...; kwargs...)
 
 
-#include("Splines.jl")
-
 #using QuadGK
 #using DifferentialEquations
 #using OrdinaryDiffEq
 using OrdinaryDiffEqTsit5
-using Splines
+using MySplines
 
 import Base.write
 import Base.show
@@ -267,8 +265,8 @@ function _make_chi(c::AbstractΛCDM, zmax=1e5)
     tspan = (0.0, zmax)
     prob = ODEProblem(f, u0, tspan, reltol=1e-6)
     sol = solve(prob, Tsit5())
-    chiz = Spline1D(sol.t, sol.u, extrapolation=Splines.linear)
-    zchi = Spline1D(sol.u, sol.t, extrapolation=Splines.linear)
+    chiz = Spline1D(sol.t, sol.u, extrapolation=MySplines.linear)
+    zchi = Spline1D(sol.u, sol.t, extrapolation=MySplines.linear)
     return chiz, zchi
 end
 chiz(c::AbstractΛCDM, z) = c.cache.chi[1](z)
