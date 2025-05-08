@@ -1,7 +1,7 @@
 name = "Cosmologies"
 uuid = "ad5277c9-dfbe-4494-be58-2d487625a7d0"
 authors = ["Henry Gebhardt <hsggebhardt@fastmail.com> and contributors"]
-version = "0.1.6"
+version = "0.1.7"
 
 [deps]
 MySplines = "b11459bf-4609-2264-00dc-5ebba822f00d"
