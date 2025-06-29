@@ -57,10 +57,7 @@ using Test
         comoving_angular_diameter_distance = dAcz(cosmo, z), dLcz
         comoving_luminosity_distance = dLcz(cosmo, z)
     end
-end
 
-
-@testset "Actual tests" begin
 
     function test()
         # test construction of PlanckFlatΛCDM()
@@ -146,23 +143,33 @@ end
     end
 
 
-    test()
-    test_io()
-    test_zchi_chiz()
+    @testset "Actual tests" begin
+        test()
+        test_io()
+        test_zchi_chiz()
 
-end
+        cosmo = TimeSliceCosmology()
+        @test cosmo.D == 1
+        @test cosmo.f ≈ 0.5206913175418616
+
+        cosmo = TimeSliceCosmology(zeff=1)
+        @test cosmo.D ≈ 0.6089873405689007
+        @test cosmo.f ≈ 0.8734309636528476
+    end
 
 
-@testset "Allocation tests" begin
-    c = PlanckFlatΛCDM()
-    z = rand(10000)
-    @show typeof(c)
-    @time chiz(c, z[423])
-    @time chiz(c, z[15])
-    @time chiz(c, z[1234])
-    @time @. chiz(c, z)
-    @time @. chiz(c, z)
-    @time @. chiz(c, z)
+    @testset "Allocation tests" begin
+        c = PlanckFlatΛCDM()
+        z = rand(10000)
+        @show typeof(c)
+        @time chiz(c, z[423])
+        @time chiz(c, z[15])
+        @time chiz(c, z[1234])
+        @time @. chiz(c, z)
+        @time @. chiz(c, z)
+        @time @. chiz(c, z)
+    end
+
 end
 
 

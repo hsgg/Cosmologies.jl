@@ -125,11 +125,15 @@ struct TimeSliceCosmology{Tcosmo,TD,Tf} <: AbstractCosmology
     f::Tf
 end
 
-TimeSliceCosmology(; D=1, f=1) = TimeSliceCosmology(PlanckFlatΛCDM(), D, f)
+TimeSliceCosmology(; kwargs...) = TimeSliceCosmology(PlanckFlatΛCDM(); kwargs...)
 
-TimeSliceCosmology(cosmobase; D=1, f=1) = TimeSliceCosmology(cosmobase, D, f)
+TimeSliceCosmology(h, Ωr, Ωm, Ωk, Ωv; kwargs...) = TimeSliceCosmology(ΛCDM(h, Ωr, Ωm, Ωk, Ωv); kwargs...)
 
-TimeSliceCosmology(h, Ωr, Ωm, Ωk, Ωv; D=1, f=1) = TimeSliceCosmology(ΛCDM(h, Ωr, Ωm, Ωk, Ωv), D, f)
+function TimeSliceCosmology(cosmobase; zeff = 0,
+                   D = Dz(cosmobase, zeff),
+                   f = fz(cosmobase, zeff))
+    return TimeSliceCosmology(cosmobase, D, f)
+end
 
 
 function show(io::IO, c::TimeSliceCosmology)
